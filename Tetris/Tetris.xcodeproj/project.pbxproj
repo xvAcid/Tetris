@@ -1,0 +1,342 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		329E85D61C63E05C00DAE579 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329E85D51C63E05C00DAE579 /* GLKit.framework */; };
+		32FC20711C63B8EA00F73A61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20701C63B8EA00F73A61 /* main.m */; };
+		32FC20741C63B8EA00F73A61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20731C63B8EA00F73A61 /* AppDelegate.m */; };
+		32FC20761C63B8EA00F73A61 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 32FC20751C63B8EA00F73A61 /* Shader.fsh */; };
+		32FC20781C63B8EA00F73A61 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 32FC20771C63B8EA00F73A61 /* Shader.vsh */; };
+		32FC207B1C63B8EA00F73A61 /* GameViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 32FC207A1C63B8EA00F73A61 /* GameViewController.mm */; };
+		32FC207E1C63B8EA00F73A61 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32FC207C1C63B8EA00F73A61 /* Main.storyboard */; };
+		32FC20801C63B8EA00F73A61 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32FC207F1C63B8EA00F73A61 /* Assets.xcassets */; };
+		32FC20831C63B8EA00F73A61 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32FC20811C63B8EA00F73A61 /* LaunchScreen.storyboard */; };
+		32FC208C1C63CF9D00F73A61 /* TileManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32FC208A1C63CF9D00F73A61 /* TileManager.cpp */; };
+		32FC208F1C63D15F00F73A61 /* OpenGLHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 32FC208D1C63D15F00F73A61 /* OpenGLHelper.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		329E85D51C63E05C00DAE579 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		32FC206C1C63B8EA00F73A61 /* Tetris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tetris.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		32FC20701C63B8EA00F73A61 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32FC20721C63B8EA00F73A61 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		32FC20731C63B8EA00F73A61 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		32FC20751C63B8EA00F73A61 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		32FC20771C63B8EA00F73A61 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		32FC20791C63B8EA00F73A61 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		32FC207A1C63B8EA00F73A61 /* GameViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GameViewController.mm; sourceTree = "<group>"; };
+		32FC207D1C63B8EA00F73A61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		32FC207F1C63B8EA00F73A61 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		32FC20821C63B8EA00F73A61 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		32FC20841C63B8EA00F73A61 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		32FC208A1C63CF9D00F73A61 /* TileManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TileManager.cpp; sourceTree = "<group>"; };
+		32FC208B1C63CF9D00F73A61 /* TileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileManager.h; sourceTree = "<group>"; };
+		32FC208D1C63D15F00F73A61 /* OpenGLHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenGLHelper.mm; sourceTree = "<group>"; };
+		32FC208E1C63D15F00F73A61 /* OpenGLHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLHelper.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		32FC20691C63B8EA00F73A61 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				329E85D61C63E05C00DAE579 /* GLKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		329E85D71C63E07F00DAE579 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				329E85D51C63E05C00DAE579 /* GLKit.framework */,
+				32FC206F1C63B8EA00F73A61 /* Supporting Files */,
+				32FC20791C63B8EA00F73A61 /* GameViewController.h */,
+				32FC207A1C63B8EA00F73A61 /* GameViewController.mm */,
+				32FC20721C63B8EA00F73A61 /* AppDelegate.h */,
+				32FC20731C63B8EA00F73A61 /* AppDelegate.m */,
+			);
+			name = ios;
+			sourceTree = "<group>";
+		};
+		32FC20631C63B8EA00F73A61 = {
+			isa = PBXGroup;
+			children = (
+				32FC206E1C63B8EA00F73A61 /* Tetris */,
+				32FC206D1C63B8EA00F73A61 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		32FC206D1C63B8EA00F73A61 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				32FC206C1C63B8EA00F73A61 /* Tetris.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32FC206E1C63B8EA00F73A61 /* Tetris */ = {
+			isa = PBXGroup;
+			children = (
+				329E85D71C63E07F00DAE579 /* ios */,
+				32FC20751C63B8EA00F73A61 /* Shader.fsh */,
+				32FC20771C63B8EA00F73A61 /* Shader.vsh */,
+				32FC208A1C63CF9D00F73A61 /* TileManager.cpp */,
+				32FC208B1C63CF9D00F73A61 /* TileManager.h */,
+				32FC208D1C63D15F00F73A61 /* OpenGLHelper.mm */,
+				32FC208E1C63D15F00F73A61 /* OpenGLHelper.h */,
+			);
+			path = Tetris;
+			sourceTree = "<group>";
+		};
+		32FC206F1C63B8EA00F73A61 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				32FC207C1C63B8EA00F73A61 /* Main.storyboard */,
+				32FC207F1C63B8EA00F73A61 /* Assets.xcassets */,
+				32FC20811C63B8EA00F73A61 /* LaunchScreen.storyboard */,
+				32FC20841C63B8EA00F73A61 /* Info.plist */,
+				32FC20701C63B8EA00F73A61 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		32FC206B1C63B8EA00F73A61 /* Tetris */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 32FC20871C63B8EA00F73A61 /* Build configuration list for PBXNativeTarget "Tetris" */;
+			buildPhases = (
+				32FC20681C63B8EA00F73A61 /* Sources */,
+				32FC20691C63B8EA00F73A61 /* Frameworks */,
+				32FC206A1C63B8EA00F73A61 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tetris;
+			productName = Tetris;
+			productReference = 32FC206C1C63B8EA00F73A61 /* Tetris.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		32FC20641C63B8EA00F73A61 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "Vitaliy Ishutin";
+				TargetAttributes = {
+					32FC206B1C63B8EA00F73A61 = {
+						CreatedOnToolsVersion = 7.2;
+					};
+				};
+			};
+			buildConfigurationList = 32FC20671C63B8EA00F73A61 /* Build configuration list for PBXProject "Tetris" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 32FC20631C63B8EA00F73A61;
+			productRefGroup = 32FC206D1C63B8EA00F73A61 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				32FC206B1C63B8EA00F73A61 /* Tetris */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		32FC206A1C63B8EA00F73A61 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32FC207E1C63B8EA00F73A61 /* Main.storyboard in Resources */,
+				32FC20781C63B8EA00F73A61 /* Shader.vsh in Resources */,
+				32FC20801C63B8EA00F73A61 /* Assets.xcassets in Resources */,
+				32FC20831C63B8EA00F73A61 /* LaunchScreen.storyboard in Resources */,
+				32FC20761C63B8EA00F73A61 /* Shader.fsh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		32FC20681C63B8EA00F73A61 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32FC20741C63B8EA00F73A61 /* AppDelegate.m in Sources */,
+				32FC208C1C63CF9D00F73A61 /* TileManager.cpp in Sources */,
+				32FC207B1C63B8EA00F73A61 /* GameViewController.mm in Sources */,
+				32FC208F1C63D15F00F73A61 /* OpenGLHelper.mm in Sources */,
+				32FC20711C63B8EA00F73A61 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		32FC207C1C63B8EA00F73A61 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32FC207D1C63B8EA00F73A61 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		32FC20811C63B8EA00F73A61 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				32FC20821C63B8EA00F73A61 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		32FC20851C63B8EA00F73A61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		32FC20861C63B8EA00F73A61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		32FC20881C63B8EA00F73A61 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Tetris/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.Tetris;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		32FC20891C63B8EA00F73A61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Tetris/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.Tetris;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		32FC20671C63B8EA00F73A61 /* Build configuration list for PBXProject "Tetris" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32FC20851C63B8EA00F73A61 /* Debug */,
+				32FC20861C63B8EA00F73A61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		32FC20871C63B8EA00F73A61 /* Build configuration list for PBXNativeTarget "Tetris" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				32FC20881C63B8EA00F73A61 /* Debug */,
+				32FC20891C63B8EA00F73A61 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 32FC20641C63B8EA00F73A61 /* Project object */;
+}
