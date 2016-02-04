@@ -1,2 +1,2 @@
 # Tetris
-Tetris for ios with opengl es 2.0
+Tetris for ios and opengl es 2.0
