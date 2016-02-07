@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		329E85D61C63E05C00DAE579 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329E85D51C63E05C00DAE579 /* GLKit.framework */; };
+		32E1E3BA1C67753100755809 /* OGLObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E1E3B81C67753100755809 /* OGLObject.cpp */; };
+		32E1E3C01C678E9B00755809 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E1E3BF1C678E9B00755809 /* Figure.cpp */; };
+		32E1E3C31C67916300755809 /* FigureI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E1E3C11C67916300755809 /* FigureI.cpp */; };
 		32FC20711C63B8EA00F73A61 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20701C63B8EA00F73A61 /* main.m */; };
 		32FC20741C63B8EA00F73A61 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 32FC20731C63B8EA00F73A61 /* AppDelegate.m */; };
 		32FC20761C63B8EA00F73A61 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 32FC20751C63B8EA00F73A61 /* Shader.fsh */; };
@@ -22,6 +25,15 @@
 
 /* Begin PBXFileReference section */
 		329E85D51C63E05C00DAE579 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		32E1E3B61C676E3A00755809 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		32E1E3B71C67736500755809 /* Vec2f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vec2f.h; sourceTree = "<group>"; };
+		32E1E3B81C67753100755809 /* OGLObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OGLObject.cpp; sourceTree = "<group>"; };
+		32E1E3B91C67753100755809 /* OGLObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGLObject.h; sourceTree = "<group>"; };
+		32E1E3BB1C6779F200755809 /* Vec2i.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vec2i.h; sourceTree = "<group>"; };
+		32E1E3BD1C678C0E00755809 /* Figure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Figure.h; sourceTree = "<group>"; };
+		32E1E3BF1C678E9B00755809 /* Figure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Figure.cpp; sourceTree = "<group>"; };
+		32E1E3C11C67916300755809 /* FigureI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureI.cpp; sourceTree = "<group>"; };
+		32E1E3C21C67916300755809 /* FigureI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureI.h; sourceTree = "<group>"; };
 		32FC206C1C63B8EA00F73A61 /* Tetris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tetris.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32FC20701C63B8EA00F73A61 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32FC20721C63B8EA00F73A61 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -87,10 +99,19 @@
 				329E85D71C63E07F00DAE579 /* ios */,
 				32FC20751C63B8EA00F73A61 /* Shader.fsh */,
 				32FC20771C63B8EA00F73A61 /* Shader.vsh */,
+				32E1E3B71C67736500755809 /* Vec2f.h */,
+				32E1E3BB1C6779F200755809 /* Vec2i.h */,
+				32E1E3B61C676E3A00755809 /* Singleton.h */,
 				32FC208A1C63CF9D00F73A61 /* TileManager.cpp */,
 				32FC208B1C63CF9D00F73A61 /* TileManager.h */,
 				32FC208D1C63D15F00F73A61 /* OpenGLHelper.mm */,
 				32FC208E1C63D15F00F73A61 /* OpenGLHelper.h */,
+				32E1E3B81C67753100755809 /* OGLObject.cpp */,
+				32E1E3B91C67753100755809 /* OGLObject.h */,
+				32E1E3BF1C678E9B00755809 /* Figure.cpp */,
+				32E1E3BD1C678C0E00755809 /* Figure.h */,
+				32E1E3C11C67916300755809 /* FigureI.cpp */,
+				32E1E3C21C67916300755809 /* FigureI.h */,
 			);
 			path = Tetris;
 			sourceTree = "<group>";
@@ -182,8 +203,11 @@
 				32FC20741C63B8EA00F73A61 /* AppDelegate.m in Sources */,
 				32FC208C1C63CF9D00F73A61 /* TileManager.cpp in Sources */,
 				32FC207B1C63B8EA00F73A61 /* GameViewController.mm in Sources */,
+				32E1E3BA1C67753100755809 /* OGLObject.cpp in Sources */,
+				32E1E3C01C678E9B00755809 /* Figure.cpp in Sources */,
 				32FC208F1C63D15F00F73A61 /* OpenGLHelper.mm in Sources */,
 				32FC20711C63B8EA00F73A61 /* main.m in Sources */,
+				32E1E3C31C67916300755809 /* FigureI.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

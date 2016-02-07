@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
+
 #include "OpenGLHelper.h"
+#include "OGLObject.h"
 
 //------------------------------------------------------------------------------------------
 //--
@@ -23,76 +26,98 @@ OpenGLHelper::~OpenGLHelper()
 
 //------------------------------------------------------------------------------------------
 //--
-bool OpenGLHelper::loadShader(const string &_shader_name, OpenGLHelper::ShaderDesc *_shader)
+bool OpenGLHelper::createShader(const string &_shader_name, OGLObject *_obj)
 {
-    _shader->program_id = glCreateProgram();
+    _obj->shader.program_id = glCreateProgram();
 	
-	if (!compileShader(&_shader->vertex_shader, _shader_name, GL_VERTEX_SHADER))
+	if (!compileShader(&_obj->shader.vertex_shader, _shader_name, GL_VERTEX_SHADER))
 	{
-		glDeleteProgram(_shader->program_id);
+		if (_obj->shader.program_id)
+		{
+			glDeleteProgram(_obj->shader.program_id);
+			_obj->shader.program_id = 0;
+		}
+		
 		NSLog(@"Failed to compile vertex shader");
 		return false;
 	}
 
-	if (!compileShader(&_shader->fragment_shader, _shader_name, GL_FRAGMENT_SHADER))
+	if (!compileShader(&_obj->shader.fragment_shader, _shader_name, GL_FRAGMENT_SHADER))
 	{
-		if (_shader->vertex_shader)
+		if (_obj->shader.program_id)
 		{
-			glDeleteShader(_shader->vertex_shader);
-			_shader->vertex_shader = 0;
+			glDeleteProgram(_obj->shader.program_id);
+			_obj->shader.program_id = 0;
 		}
 		
-		if (_shader->program_id)
+		if (_obj->shader.vertex_shader)
 		{
-			glDeleteProgram(_shader->program_id);
-			_shader->program_id = 0;
+			glDeleteShader(_obj->shader.vertex_shader);
+			_obj->shader.vertex_shader = 0;
+		}
+		
+		if (_obj->shader.program_id)
+		{
+			glDeleteProgram(_obj->shader.program_id);
+			_obj->shader.program_id = 0;
 		}
 		
         NSLog(@"Failed to compile fragment shader");
 		return false;
 	}
 
-    glAttachShader(_shader->program_id, _shader->vertex_shader);
-    glAttachShader(_shader->program_id, _shader->fragment_shader);
+    glAttachShader(_obj->shader.program_id, _obj->shader.vertex_shader);
+    glAttachShader(_obj->shader.program_id, _obj->shader.fragment_shader);
 
-    if (!linkProgram(_shader->program_id))
+    if (!linkProgram(_obj->shader.program_id))
 	{
-        NSLog(@"Failed to link program: %d", _shader->program_id);
+        NSLog(@"Failed to link program: %d", _obj->shader.program_id);
 
-        if (_shader->vertex_shader)
+        if (_obj->shader.vertex_shader)
 		{
-            glDeleteShader(_shader->vertex_shader);
-            _shader->vertex_shader = 0;
+            glDeleteShader(_obj->shader.vertex_shader);
+            _obj->shader.vertex_shader = 0;
         }
 		
-        if (_shader->fragment_shader)
+        if (_obj->shader.fragment_shader)
 		{
-            glDeleteShader(_shader->fragment_shader);
-            _shader->fragment_shader = 0;
+            glDeleteShader(_obj->shader.fragment_shader);
+            _obj->shader.fragment_shader = 0;
         }
 		
-        if (_shader->program_id)
+        if (_obj->shader.program_id)
 		{
-            glDeleteProgram(_shader->program_id);
-            _shader->program_id = 0;
+            glDeleteProgram(_obj->shader.program_id);
+            _obj->shader.program_id = 0;
         }
 
         return false;
     }
 	
-//    if (_shader->vertex_shader)
-//	{
-//        glDetachShader(_shader->program_id, _shader->vertex_shader);
-//        glDeleteShader(_shader->vertex_shader);
-//    }
-//	
-//    if (_shader->fragment_shader)
-//	{
-//        glDetachShader(_shader->program_id, _shader->fragment_shader);
-//        glDeleteShader(_shader->fragment_shader);
-//    }
+    if (_obj->shader.vertex_shader)
+	{
+        glDetachShader(_obj->shader.program_id, _obj->shader.vertex_shader);
+        glDeleteShader(_obj->shader.vertex_shader);
+    }
+	
+    if (_obj->shader.fragment_shader)
+	{
+        glDetachShader(_obj->shader.program_id, _obj->shader.fragment_shader);
+        glDeleteShader(_obj->shader.fragment_shader);
+    }
 
     return true;
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void OpenGLHelper::deleteShader(OGLObject *_obj)
+{
+	if (_obj->shader.program_id)
+	{
+		glDeleteProgram(_obj->shader.program_id);
+		_obj->shader.program_id = 0;
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -167,25 +192,148 @@ bool OpenGLHelper::linkProgram(GLuint _program_id)
 
 //------------------------------------------------------------------------------------------
 //--
-void OpenGLHelper::createBuffer(OpenGLHelper::BufferDesc *_buffer, float _size)
+void OpenGLHelper::createBuffer(OGLObject *_obj)
 {
 	VertexDesc vertices[] =
 	{
-		{{-1.0f * _size, -1.0f * _size, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
-		{{ 1.0f * _size, -1.0f * _size, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
-		{{ 1.0f * _size,  1.0f * _size, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
-		{{-1.0f * _size,  1.0f * _size, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
+		{{0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
+		{{0.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
+		{{1.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
+		{{1.0f, 1.0f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}},
 	};
 	
 	static GLubyte indices[] = {0, 1, 2, 3};
 	
-	glGenBuffers(1, &_buffer->vertex_buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, _buffer->vertex_buffer);
+	glGenBuffers(1, &_obj->buffer.vertex_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, _obj->buffer.vertex_buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	
-	glGenBuffers(1, &_buffer->index_buffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffer->index_buffer);
+	glGenBuffers(1, &_obj->buffer.index_buffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _obj->buffer.index_buffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+
+//------------------------------------------------------------------------------------------
+//--
+void OpenGLHelper::deleteBuffer(OGLObject *_obj)
+{
+	if (_obj->buffer.vertex_buffer)
+	{
+		glDeleteBuffers(1, &_obj->buffer.vertex_buffer);
+		_obj->buffer.vertex_buffer = 0;
+	}
+	
+	if (_obj->buffer.index_buffer)
+	{
+		glDeleteBuffers(1, &_obj->buffer.index_buffer);
+		_obj->buffer.index_buffer = 0;
+	}
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void OpenGLHelper::drawBuffer(const OGLObject *_obj, const float _model_view[16])
+{
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+	
+	if (_obj)
+	{
+		glUseProgram(_obj->shader.program_id);
+		
+		GLuint position_attr	= glGetAttribLocation(_obj->shader.program_id,	"Position");
+		GLuint color_attr		= glGetUniformLocation(_obj->shader.program_id,	"SourceColor");
+		GLuint proj_uniform		= glGetUniformLocation(_obj->shader.program_id,	"Projection");
+		GLuint model_view		= glGetUniformLocation(_obj->shader.program_id,	"ModelView");
+		
+		glUniform4f(color_attr, _obj->color[0], _obj->color[1], _obj->color[2], _obj->color[3]);
+		
+		glUniformMatrix4fv(proj_uniform, 1, 0, projection);
+		glUniformMatrix4fv(model_view, 1, 0, _model_view);
+		
+		glEnableVertexAttribArray(position_attr);
+		glEnableVertexAttribArray(color_attr);
+		
+		glBindBuffer(GL_ARRAY_BUFFER,			_obj->buffer.vertex_buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,	_obj->buffer.index_buffer);
+		
+		glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(OpenGLHelper::VertexDesc), 0);
+		glVertexAttribPointer(color_attr, 4, GL_FLOAT, GL_FALSE, sizeof(OpenGLHelper::VertexDesc), BUFFER_OFFSET(sizeof(float) * 3));
+		
+		glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, 0);
+		
+		glDisableVertexAttribArray(position_attr);
+		glDisableVertexAttribArray(color_attr);
+		
+		glBindBuffer(GL_ARRAY_BUFFER,			0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,	0);
+	}
+	
+#undef BUFFER_OFFSET
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void OpenGLHelper::createOrtho()
+{
+	float fan	= -2000.0f;
+	float fsn	= 2000.0f;
+	float m[16] =
+	{
+		2.0f / screen_width,
+		0.0f,
+		0.0f,
+		0.0f,
+		
+		0.0f,
+		2.0f / screen_height,
+		0.0f,
+		0.0f,
+		
+		0.0f,
+		0.0f,
+		-2.0f / fsn,
+		0.0f,
+		
+		-screen_width / screen_width,
+		-screen_height / screen_height,
+		-fan / fsn,
+		1.0f
+	};
+
+	memcpy(projection, m, sizeof(m));
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void OpenGLHelper::createModelView(const vec2f &_position, const vec2f &_scale, float *_result)
+{
+	float m[16] =
+	{
+		_scale.x, 0.0f, 0.0f, 0.0f,
+		0.0f, _scale.y, 0.0f, 0.0f,
+		0.0f,     0.0f, 1.0f, 0.0f,
+		_position.x, _position.y, 0.0f, 1.0f
+	};
+	
+	memcpy(_result, m, sizeof(m));
+}
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--

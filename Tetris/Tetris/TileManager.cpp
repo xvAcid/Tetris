@@ -7,6 +7,8 @@
 //
 
 #include "TileManager.h"
+#include "Figure.h"
+#include "FigureI.h"
 
 //------------------------------------------------------------------------------------------
 //--
@@ -18,83 +20,57 @@ TileManager::TileManager()
 //--
 TileManager::~TileManager()
 {
-}
-
-//------------------------------------------------------------------------------------------
-//--
-void TileManager::Create()
-{
-	OpenGLHelper ogl;
-	ogl.loadShader("Shader", &shader);
-	ogl.createBuffer(&buffer, 50);
-}
-
-//------------------------------------------------------------------------------------------
-//--
-void TileManager::Refresh()
-{
-}
-
-//------------------------------------------------------------------------------------------
-//--
-void TileManager::Draw()
-{
-	glUseProgram(shader.program_id);
-	GLuint position_attr		= glGetAttribLocation(shader.program_id,	"Position");
-	GLuint color_attr			= glGetAttribLocation(shader.program_id,	"SourceColor");
-	GLuint proj_uniform			= glGetUniformLocation(shader.program_id,	"Projection");
-	GLuint model_view_uniform	= glGetUniformLocation(shader.program_id,	"ModelView");
-
-	
-	float view[16]			=
+	for (int i = 0; i < tile_objects.size(); ++i)
 	{
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, 0, 1
-	};
+		delete tile_objects[i].draw_object;
+	}
 	
-	float proj[16]			=
+	tile_objects.clear();
+	
+	delete test;
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void TileManager::create()
+{
+	OpenGLHelper *ogl	= OpenGLHelper::getSingleton();
+	board_size			= vec2i(ogl->getScreenWidth() / tile_size.x, ogl->getScreenHeight() / tile_size.y);
+	
+	for (int x = 0; x < board_size.x; ++x)
 	{
-		1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, 0, 1
-	};
-	
-	float far_plane			= 1000.0f;
-	float near_plane		= 1.0f;
-	float projection_bottom	= 0.0f;
-	float projection_left	= 0.0f;
-	float projection_top	= 568.0f;//static_cast<float>(rect.size.height);
-	float projection_right	= 320.0f;//static_cast<float>(rect.size.width);
-	
-	proj[0]					= 2.0f / (projection_right - projection_left);
-	proj[5]					= 2.0f / (projection_top - projection_bottom);
-	proj[10]				= 2.0f / (far_plane - near_plane);
-	proj[12]				= -(projection_right + projection_left) / (projection_right - projection_left);
-	proj[13]				= -(projection_top + projection_bottom) / (projection_top - projection_bottom);
-	proj[14]				= (far_plane + near_plane) / (far_plane - near_plane);
-	proj[15]				= 1.0f;
-	
-	glUniformMatrix4fv(proj_uniform, 1, 0, proj);
-	glUniformMatrix4fv(model_view_uniform, 1, 0, view);
+		for (int y = 0; y < board_size.y; ++y)
+		{
+			Tile tile;
+			tile.state			= (x == 0 || x == board_size.x - 1 || y == 0) ? TS_WALL : TS_FREE;
+			tile.position		= vec2f(x * tile_size.x, y * tile_size.y);
+			tile.size			= tile_size;
+			tile.draw_object	= tile.state == TS_WALL ? new OGLObject() : nullptr;
 
-	glEnableVertexAttribArray(position_attr);
-	glEnableVertexAttribArray(color_attr);
+			tile_objects.push_back(tile);
+		}
+	}
+}
 
-	glBindBuffer(GL_ARRAY_BUFFER,			buffer.vertex_buffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,	buffer.index_buffer);
-	
-	glVertexAttribPointer(position_attr, 3, GL_FLOAT, GL_FALSE, sizeof(OpenGLHelper::VertexDesc), 0);
-	glVertexAttribPointer(color_attr, 4, GL_FLOAT, GL_FALSE, sizeof(OpenGLHelper::VertexDesc), (GLvoid*)(sizeof(float) * 3));
+//------------------------------------------------------------------------------------------
+//--
+void TileManager::refresh()
+{
+}
 
-	glDrawElements(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_BYTE, 0);
+//------------------------------------------------------------------------------------------
+//--
+void TileManager::draw()
+{
+	OpenGLHelper *ogl = OpenGLHelper::getSingleton();
 	
-	glDisableVertexAttribArray(position_attr);
-	glDisableVertexAttribArray(color_attr);
-	
-	glBindBuffer(GL_ARRAY_BUFFER,			0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,	0);
-
+	for (auto tile : tile_objects)
+	{
+		if (tile.draw_object)
+		{
+			float mview[16] = {0};
+			ogl->createModelView(tile.position, tile.size, &mview[0]);
+			ogl->drawBuffer(tile.draw_object, &mview[0]);
+		}
+	}
 }
