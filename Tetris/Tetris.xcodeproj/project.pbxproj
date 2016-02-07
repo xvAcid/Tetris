@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		323757E31C67DBA500158686 /* FigureJ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757E11C67DBA500158686 /* FigureJ.cpp */; };
+		323757E61C67DD1F00158686 /* FigureL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757E41C67DD1F00158686 /* FigureL.cpp */; };
+		323757E91C67DD9900158686 /* FigureO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757E71C67DD9900158686 /* FigureO.cpp */; };
+		323757EC1C67DE1500158686 /* FigureS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757EA1C67DE1500158686 /* FigureS.cpp */; };
+		323757EF1C67DE8D00158686 /* FigureT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757ED1C67DE8D00158686 /* FigureT.cpp */; };
+		323757F21C67DEE300158686 /* FigureZ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757F01C67DEE300158686 /* FigureZ.cpp */; };
+		323757F61C67DFB500158686 /* FigureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 323757F41C67DFB500158686 /* FigureManager.cpp */; };
 		329E85D61C63E05C00DAE579 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329E85D51C63E05C00DAE579 /* GLKit.framework */; };
 		32E1E3BA1C67753100755809 /* OGLObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E1E3B81C67753100755809 /* OGLObject.cpp */; };
 		32E1E3C01C678E9B00755809 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E1E3BF1C678E9B00755809 /* Figure.cpp */; };
@@ -24,6 +31,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		323757E11C67DBA500158686 /* FigureJ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureJ.cpp; sourceTree = "<group>"; };
+		323757E21C67DBA500158686 /* FigureJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureJ.h; sourceTree = "<group>"; };
+		323757E41C67DD1F00158686 /* FigureL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureL.cpp; sourceTree = "<group>"; };
+		323757E51C67DD1F00158686 /* FigureL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureL.h; sourceTree = "<group>"; };
+		323757E71C67DD9900158686 /* FigureO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureO.cpp; sourceTree = "<group>"; };
+		323757E81C67DD9900158686 /* FigureO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureO.h; sourceTree = "<group>"; };
+		323757EA1C67DE1500158686 /* FigureS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureS.cpp; sourceTree = "<group>"; };
+		323757EB1C67DE1500158686 /* FigureS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureS.h; sourceTree = "<group>"; };
+		323757ED1C67DE8D00158686 /* FigureT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureT.cpp; sourceTree = "<group>"; };
+		323757EE1C67DE8D00158686 /* FigureT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureT.h; sourceTree = "<group>"; };
+		323757F01C67DEE300158686 /* FigureZ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureZ.cpp; sourceTree = "<group>"; };
+		323757F11C67DEE300158686 /* FigureZ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureZ.h; sourceTree = "<group>"; };
+		323757F41C67DFB500158686 /* FigureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FigureManager.cpp; sourceTree = "<group>"; };
+		323757F51C67DFB500158686 /* FigureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureManager.h; sourceTree = "<group>"; };
 		329E85D51C63E05C00DAE579 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		32E1E3B61C676E3A00755809 /* Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
 		32E1E3B71C67736500755809 /* Vec2f.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vec2f.h; sourceTree = "<group>"; };
@@ -64,6 +85,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		323757F31C67DEE900158686 /* Figures */ = {
+			isa = PBXGroup;
+			children = (
+				32E1E3BF1C678E9B00755809 /* Figure.cpp */,
+				32E1E3BD1C678C0E00755809 /* Figure.h */,
+				32E1E3C11C67916300755809 /* FigureI.cpp */,
+				32E1E3C21C67916300755809 /* FigureI.h */,
+				323757F01C67DEE300158686 /* FigureZ.cpp */,
+				323757F11C67DEE300158686 /* FigureZ.h */,
+				323757ED1C67DE8D00158686 /* FigureT.cpp */,
+				323757EE1C67DE8D00158686 /* FigureT.h */,
+				323757EA1C67DE1500158686 /* FigureS.cpp */,
+				323757EB1C67DE1500158686 /* FigureS.h */,
+				323757E71C67DD9900158686 /* FigureO.cpp */,
+				323757E81C67DD9900158686 /* FigureO.h */,
+				323757E41C67DD1F00158686 /* FigureL.cpp */,
+				323757E51C67DD1F00158686 /* FigureL.h */,
+				323757E11C67DBA500158686 /* FigureJ.cpp */,
+				323757E21C67DBA500158686 /* FigureJ.h */,
+			);
+			name = Figures;
+			sourceTree = "<group>";
+		};
 		329E85D71C63E07F00DAE579 /* ios */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,21 +141,20 @@
 			isa = PBXGroup;
 			children = (
 				329E85D71C63E07F00DAE579 /* ios */,
+				323757F31C67DEE900158686 /* Figures */,
+				32E1E3B81C67753100755809 /* OGLObject.cpp */,
+				32E1E3B91C67753100755809 /* OGLObject.h */,
+				32FC208D1C63D15F00F73A61 /* OpenGLHelper.mm */,
+				32FC208E1C63D15F00F73A61 /* OpenGLHelper.h */,
 				32FC20751C63B8EA00F73A61 /* Shader.fsh */,
 				32FC20771C63B8EA00F73A61 /* Shader.vsh */,
-				32E1E3B71C67736500755809 /* Vec2f.h */,
-				32E1E3BB1C6779F200755809 /* Vec2i.h */,
 				32E1E3B61C676E3A00755809 /* Singleton.h */,
 				32FC208A1C63CF9D00F73A61 /* TileManager.cpp */,
 				32FC208B1C63CF9D00F73A61 /* TileManager.h */,
-				32FC208D1C63D15F00F73A61 /* OpenGLHelper.mm */,
-				32FC208E1C63D15F00F73A61 /* OpenGLHelper.h */,
-				32E1E3B81C67753100755809 /* OGLObject.cpp */,
-				32E1E3B91C67753100755809 /* OGLObject.h */,
-				32E1E3BF1C678E9B00755809 /* Figure.cpp */,
-				32E1E3BD1C678C0E00755809 /* Figure.h */,
-				32E1E3C11C67916300755809 /* FigureI.cpp */,
-				32E1E3C21C67916300755809 /* FigureI.h */,
+				323757F41C67DFB500158686 /* FigureManager.cpp */,
+				323757F51C67DFB500158686 /* FigureManager.h */,
+				32E1E3B71C67736500755809 /* Vec2f.h */,
+				32E1E3BB1C6779F200755809 /* Vec2i.h */,
 			);
 			path = Tetris;
 			sourceTree = "<group>";
@@ -200,13 +243,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323757E91C67DD9900158686 /* FigureO.cpp in Sources */,
+				323757EC1C67DE1500158686 /* FigureS.cpp in Sources */,
 				32FC20741C63B8EA00F73A61 /* AppDelegate.m in Sources */,
+				323757E31C67DBA500158686 /* FigureJ.cpp in Sources */,
 				32FC208C1C63CF9D00F73A61 /* TileManager.cpp in Sources */,
 				32FC207B1C63B8EA00F73A61 /* GameViewController.mm in Sources */,
+				323757F61C67DFB500158686 /* FigureManager.cpp in Sources */,
 				32E1E3BA1C67753100755809 /* OGLObject.cpp in Sources */,
 				32E1E3C01C678E9B00755809 /* Figure.cpp in Sources */,
 				32FC208F1C63D15F00F73A61 /* OpenGLHelper.mm in Sources */,
+				323757EF1C67DE8D00158686 /* FigureT.cpp in Sources */,
 				32FC20711C63B8EA00F73A61 /* main.m in Sources */,
+				323757E61C67DD1F00158686 /* FigureL.cpp in Sources */,
+				323757F21C67DEE300158686 /* FigureZ.cpp in Sources */,
 				32E1E3C31C67916300755809 /* FigureI.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +369,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				INFOPLIST_FILE = Tetris/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -331,6 +384,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				INFOPLIST_FILE = Tetris/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

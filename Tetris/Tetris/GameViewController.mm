@@ -24,9 +24,10 @@
         NSLog(@"Failed to create ES context");
     }
     
-    GLKView *view				= (GLKView *)self.view;
-    view.context				= self.context;
-    view.drawableDepthFormat	= GLKViewDrawableDepthFormat24;
+    GLKView *view					= (GLKView *)self.view;
+    view.context					= self.context;
+    view.drawableDepthFormat		= GLKViewDrawableDepthFormat24;
+	self.preferredFramesPerSecond	= 30;
     
     [self setupGL];
 }
@@ -96,6 +97,9 @@
 	
 	tile_manager = TileManager::getSingleton();
 	tile_manager->create();
+	
+	figure_manager = FigureManager::getSingleton();
+	figure_manager->create();
 }
 
 //------------------------------------------------------------------------------------------
@@ -108,6 +112,9 @@
 	tile_manager->deleteSingleton();
 	tile_manager = nullptr;
 	
+	figure_manager->deleteSingleton();
+	figure_manager = nullptr;
+	
     [EAGLContext setCurrentContext:self.context];
 }
 
@@ -116,6 +123,7 @@
 - (void)update
 {
 	tile_manager->refresh();
+	figure_manager->refresh();
 }
 
 //------------------------------------------------------------------------------------------
@@ -127,6 +135,7 @@
 	glViewport(0, 0, opengl_helper->getScreenWidth(), opengl_helper->getScreenHeight());
 
 	tile_manager->draw();
+	figure_manager->draw();
 }
 
 @end

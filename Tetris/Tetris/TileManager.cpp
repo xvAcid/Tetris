@@ -7,8 +7,6 @@
 //
 
 #include "TileManager.h"
-#include "Figure.h"
-#include "FigureI.h"
 
 //------------------------------------------------------------------------------------------
 //--
@@ -20,14 +18,12 @@ TileManager::TileManager()
 //--
 TileManager::~TileManager()
 {
-	for (int i = 0; i < tile_objects.size(); ++i)
+	for (unsigned int i = 0; i < tile_objects.size(); ++i)
 	{
 		delete tile_objects[i].draw_object;
 	}
 	
 	tile_objects.clear();
-	
-	delete test;
 }
 
 //------------------------------------------------------------------------------------------
@@ -37,9 +33,9 @@ void TileManager::create()
 	OpenGLHelper *ogl	= OpenGLHelper::getSingleton();
 	board_size			= vec2i(ogl->getScreenWidth() / tile_size.x, ogl->getScreenHeight() / tile_size.y);
 	
-	for (int x = 0; x < board_size.x; ++x)
+	for (unsigned int x = 0; x < board_size.x; ++x)
 	{
-		for (int y = 0; y < board_size.y; ++y)
+		for (unsigned int y = 0; y < board_size.y; ++y)
 		{
 			Tile tile;
 			tile.state			= (x == 0 || x == board_size.x - 1 || y == 0) ? TS_WALL : TS_FREE;
@@ -73,4 +69,11 @@ void TileManager::draw()
 			ogl->drawBuffer(tile.draw_object, &mview[0]);
 		}
 	}
+}
+
+//------------------------------------------------------------------------------------------
+//--
+bool TileManager::detectIntersect(Figure *_figure)
+{
+	return false;
 }

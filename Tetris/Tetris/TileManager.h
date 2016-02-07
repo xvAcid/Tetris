@@ -12,10 +12,10 @@
 #include "OpenGLHelper.h"
 #include "OGLObject.h"
 #include "Singleton.h"
+#include "Figure.h"
 
 #include <vector>
 
-class Figure;
 class TileManager : public Singleton<TileManager>
 {
 	SINGLETON_DECLARATION(TileManager);
@@ -42,9 +42,10 @@ public:
 	void refresh();
 	void draw();
 	
-	const vec2f &getTileSize() const;
+	bool detectIntersect(Figure *_figure);
 	
-	Figure *test;
+	const vec2f &getTileSize() const;
+	const vec2i &getBoardSize() const;
 	
 protected:
 	vector<Tile>	tile_objects;
@@ -56,6 +57,11 @@ protected:
 inline const vec2f &TileManager::getTileSize() const
 {
 	return tile_size;
+}
+
+inline const vec2i &TileManager::getBoardSize() const
+{
+	return  board_size;
 }
 
 #endif /* TileManager_hpp */
