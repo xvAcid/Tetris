@@ -7,6 +7,7 @@
 //
 
 #include "TileManager.h"
+#include "FigureManager.h"
 
 //------------------------------------------------------------------------------------------
 //--
@@ -31,11 +32,12 @@ TileManager::~TileManager()
 void TileManager::create()
 {
 	OpenGLHelper *ogl	= OpenGLHelper::getSingleton();
-	board_size			= vec2i(ogl->getScreenWidth() / tile_size.x, ogl->getScreenHeight() / tile_size.y);
+	board_size			= vec2i(ogl->getScreenWidth() / tile_size.x, ogl->getScreenHeight() / tile_size.y + 2);
+	board_size.x		= board_size.x % 2 ? board_size.x - 1 : board_size.x;
 	
-	for (unsigned int x = 0; x < board_size.x; ++x)
+	for (unsigned int y = 0; y < board_size.y; ++y)
 	{
-		for (unsigned int y = 0; y < board_size.y; ++y)
+		for (unsigned int x = 0; x < board_size.x; ++x)
 		{
 			Tile tile;
 			tile.state			= (x == 0 || x == board_size.x - 1 || y == 0) ? TS_WALL : TS_FREE;
@@ -52,6 +54,45 @@ void TileManager::create()
 //--
 void TileManager::refresh()
 {
+	for (unsigned int y = 0; y < board_size.y; ++y)
+	{
+		//------------------------------
+		//-- проверям вся линия занята
+		unsigned int busy_tiles = 0;
+		for (unsigned int x = 1; x < board_size.x - 1; ++x)
+		{
+			unsigned int tile_index = (y * board_size.x) + x;
+			const Tile &tile		= tile_objects[tile_index];
+			
+			if (tile.state == TS_BUSY)
+			{
+				Figure *figure = FigureManager::getSingleton()->getFigure(tile.object_id);
+
+				if (figure && figure->getState() == Figure::FS_WAIT)
+				{
+					++busy_tiles;
+				}
+			}
+		}
+		
+		//------------------------------
+		//-- срезаем линию
+		if (busy_tiles == board_size.x - 2)
+		{
+			for (unsigned int x = 1; x < board_size.x - 1; ++x)
+			{
+				unsigned int tile_index = (y * board_size.x) + x;
+				const Tile &tile		= tile_objects[tile_index];
+				
+				if (tile.state == TS_BUSY)
+				{
+					FigureManager::getSingleton()->eraseFigureBlock(tile.position, tile.object_id);
+				}
+			}
+			
+			FigureManager::getSingleton()->moveDownAllFigures();
+		}
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -73,7 +114,91 @@ void TileManager::draw()
 
 //------------------------------------------------------------------------------------------
 //--
-bool TileManager::detectIntersect(Figure *_figure)
+void TileManager::clearTiles(Figure *_figure)
 {
-	return false;
+	for (unsigned int i = 0; i < tile_objects.size(); ++i)
+	{
+		Tile &tile = tile_objects[i];
+		if (tile.object_id == _figure->getObjectId())
+		{
+			tile.object_id	= 0xFFFFFFFF;
+			tile.state		= TileManager::TS_FREE;
+		}
+	}
 }
+
+//------------------------------------------------------------------------------------------
+//--
+void TileManager::fillTiles(Figure *_figure)
+{
+	for (unsigned int i = 0; i < tile_objects.size(); ++i)
+	{
+		Tile &tile = tile_objects[i];
+		
+		if (tile.state == TileManager::TS_FREE)
+		{
+			const vec2f &half_tile_size		= tile.size * 0.5f;
+			const vec2f &tile_center_pos	= tile.position + half_tile_size;
+			
+			for (unsigned int j = 0; j < _figure->getBlockCount(); ++j)
+			{
+				const vec2f &block_center_position	= (_figure->getPosition() + _figure->getBlockPosition(j)) + half_tile_size;
+				const vec2f &distance				= block_center_position - tile_center_pos;
+				
+				if (fabsf(distance.x) < half_tile_size.x && fabsf(distance.y) < half_tile_size.y)
+				{
+					tile.object_id	= _figure->getObjectId();
+					tile.state		= TileManager::TS_BUSY;
+				}
+			}
+		}
+	}
+}
+
+//------------------------------------------------------------------------------------------
+//--
+bool TileManager::detectCollision(Figure *_figure)
+{
+	bool is_collision = false;
+	for (unsigned int i = 0; i < tile_objects.size() && !is_collision; ++i)
+	{
+		Tile &tile = tile_objects[i];
+		
+		if (tile.state == TileManager::TS_WALL || tile.state == TileManager::TS_BUSY)
+		{
+			const vec2f &half_tile_size		= tile.size * 0.5f;
+			const vec2f &tile_center_pos	= tile.position + half_tile_size;
+			
+			for (unsigned int j = 0; j < _figure->getBlockCount(); ++j)
+			{
+				const vec2f &block_center_position	= (_figure->getPosition() + _figure->getBlockPosition(j)) + half_tile_size;
+				const vec2f &distance				= block_center_position - tile_center_pos;
+				
+				if (fabsf(distance.x) < half_tile_size.x && fabsf(distance.y) < half_tile_size.y)
+				{
+					is_collision = true;
+				}
+			}
+		}
+	}
+	
+	return is_collision;
+}
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--
+
+//------------------------------------------------------------------------------------------
+//--

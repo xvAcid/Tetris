@@ -17,6 +17,7 @@ public:
 	FigureT();
 	
 	virtual void create();
+	virtual void rotate(bool _ccw = true);
 };
 
 #endif /* FigureT_hpp */

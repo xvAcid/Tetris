@@ -30,10 +30,11 @@ class TileManager : public Singleton<TileManager>
 	
 	struct Tile
 	{
-		OGLObject	*draw_object;
-		vec2f		position	= vec2f_zero;
-		vec2f		size		= vec2f_zero;
-		TileState	state		= TS_COUNT;
+		OGLObject		*draw_object;
+		vec2f			position	= vec2f_zero;
+		vec2f			size		= vec2f_zero;
+		TileState		state		= TS_COUNT;
+		unsigned int	object_id	= 0xFFFFFFFF;
 	};
 	
 public:
@@ -42,7 +43,10 @@ public:
 	void refresh();
 	void draw();
 	
-	bool detectIntersect(Figure *_figure);
+	void clearTiles(Figure *_figure);
+	void fillTiles(Figure *_figure);
+	
+	bool detectCollision(Figure *_figure);
 	
 	const vec2f &getTileSize() const;
 	const vec2i &getBoardSize() const;

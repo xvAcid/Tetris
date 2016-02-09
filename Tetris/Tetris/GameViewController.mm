@@ -138,4 +138,58 @@
 	figure_manager->draw();
 }
 
+//------------------------------------------------------------------------------------------
+//--
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	for (UITouch *touch in touches)
+	{
+		CGPoint pos		= [touch locationInView:[self view]];
+		float ver		= [[[UIDevice currentDevice] systemVersion] floatValue];
+		float scale		= (ver >= 3.2f) ? [[UIScreen mainScreen] scale] : 1.0f;
+
+		if (FigureManager::isAvailable())
+		{
+			FigureManager::getSingleton()->startTouch(vec2f(pos.x, pos.y) * scale);
+			break;
+		}
+	}
+}
+
+//------------------------------------------------------------------------------------------
+//--
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	for (UITouch *touch in touches)
+	{
+		CGPoint pos		= [touch locationInView:[self view]];
+		float ver		= [[[UIDevice currentDevice] systemVersion] floatValue];
+		float scale		= (ver >= 3.2f) ? [[UIScreen mainScreen] scale] : 1.0f;
+		
+		if (FigureManager::isAvailable())
+		{
+			FigureManager::getSingleton()->moveTouch(vec2f(pos.x, pos.y) * scale);
+			break;
+		}
+	}
+}
+
+//------------------------------------------------------------------------------------------
+//--
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	for (UITouch *touch in touches)
+	{
+		CGPoint pos		= [touch locationInView:[self view]];
+		float ver		= [[[UIDevice currentDevice] systemVersion] floatValue];
+		float scale		= (ver >= 3.2f) ? [[UIScreen mainScreen] scale] : 1.0f;
+		
+		if (FigureManager::isAvailable())
+		{
+			FigureManager::getSingleton()->endTouch(vec2f(pos.x, pos.y) * scale);
+			break;
+		}
+	}
+}
+
 @end

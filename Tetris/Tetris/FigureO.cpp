@@ -33,4 +33,14 @@ void FigureO::create()
 		obj->SetColor(240, 240, 0);
 		objects.push_back(obj);
 	}
+	
+	calculateSize();
+	
+	size += TileManager::getSingleton()->getTileSize();
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void FigureO::rotate(bool _ccw)
+{
 }

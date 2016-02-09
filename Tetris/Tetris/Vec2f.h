@@ -52,16 +52,18 @@ public:
 		y	(_y)
 	{
 	}
-
-	inline float length_square(void) const
+	
+	inline float length()
 	{
-		float length = (x * x) + (y * y);
-		return length;
+		float value = sqrtf(x * x + y * y);
+		return value;
 	}
-
-	inline float length(void) const
+	
+	inline void normalize()
 	{
-		return sqrtf(length_square());
+		float scale = 1.0f / length();
+		x	*= scale;
+		y	*= scale;
 	}
 
 	inline vec2f &operator = (const vec2f &_vector)
