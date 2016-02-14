@@ -58,15 +58,16 @@ public:
 	const vec2f &getBlockPosition(unsigned int _index) const;
 	unsigned int getBlockCount() const;
 	
-	void eraseBlock(const vec2f &_tile_position);
+	void eraseBlock(unsigned int _block_id);
+	void moveDown(unsigned int _block_id, float _tile_size_y);
 	
 protected:
 	void calculateSize();
-	
+
 protected:
 	vector<OGLObject*>	objects;
 	vector<vec2f>		ogl_positions;
-	
+
 	FigureType			type			= FT_COUNT;
 	FigureState			state			= FS_MOVE;
 	vec2f				position		= vec2f_zero;
@@ -123,6 +124,7 @@ inline unsigned int Figure::getBlockCount() const
 
 inline void Figure::calculateSize()
 {
+	size = vec2f_zero;
 	for (unsigned int i = 0; i < ogl_positions.size(); ++i)
 	{
 		const vec2f &position = ogl_positions[i];
@@ -131,5 +133,22 @@ inline void Figure::calculateSize()
 		if (size.y < position.y) size.y = position.y;
 	}
 }
+
+inline void Figure::eraseBlock(unsigned int _block_id)
+{
+	if (_block_id < ogl_positions.size())
+	{
+		ogl_positions[_block_id] = vec2f(-10000);
+	}
+}
+
+inline void Figure::moveDown(unsigned int _block_id, float _tile_size_y)
+{
+	if (_block_id < ogl_positions.size())
+	{
+		ogl_positions[_block_id].y -= _tile_size_y;
+	}
+}
+
 
 #endif /* Figure_hpp */

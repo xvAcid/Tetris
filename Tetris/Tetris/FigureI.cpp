@@ -27,7 +27,7 @@ void FigureI::create()
 		OGLObject *obj = new OGLObject();
 		obj->SetColor(0, 240, 240);
 		
-		ogl_positions.push_back(vec2f(0.0f, tile_size.y * (3 - i)));
+		ogl_positions.push_back(vec2f(0.0f, tile_size.y * i));
 		objects.push_back(obj);
 	}
 	
@@ -43,4 +43,6 @@ void FigureI::rotate(bool _ccw)
 		vec2f &position = ogl_positions[i];
 		position		= vec2f(position.y, position.x);
 	}
+	
+	calculateSize();
 }

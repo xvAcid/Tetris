@@ -35,6 +35,7 @@ class TileManager : public Singleton<TileManager>
 		vec2f			size		= vec2f_zero;
 		TileState		state		= TS_COUNT;
 		unsigned int	object_id	= 0xFFFFFFFF;
+		unsigned int	block_index	= 0xFFFFFFFF;
 	};
 	
 public:
@@ -43,7 +44,6 @@ public:
 	void refresh();
 	void draw();
 	
-	void clearTiles(Figure *_figure);
 	void fillTiles(Figure *_figure);
 	
 	bool detectCollision(Figure *_figure);
@@ -51,11 +51,18 @@ public:
 	const vec2f &getTileSize() const;
 	const vec2i &getBoardSize() const;
 	
+	void clearAllTiles();
+	
+	bool isGameEnd(void) const;
+	
+	void restart();
+	
 protected:
 	vector<Tile>	tile_objects;
 	
 	vec2f			tile_size	= vec2f(64);
 	vec2i			board_size	= vec2i_zero;
+	unsigned int	scores		= 0;
 };
 
 inline const vec2f &TileManager::getTileSize() const
@@ -66,6 +73,13 @@ inline const vec2f &TileManager::getTileSize() const
 inline const vec2i &TileManager::getBoardSize() const
 {
 	return  board_size;
+}
+
+inline void TileManager::restart()
+{
+	scores = 0;
+
+	clearAllTiles();
 }
 
 #endif /* TileManager_hpp */

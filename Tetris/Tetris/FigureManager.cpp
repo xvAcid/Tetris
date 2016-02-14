@@ -54,9 +54,9 @@ void FigureManager::generateFigure()
 		const vec2f &figure_size	= figure.get()->getSize();
 		
 		float start_position_x		= (board_size.x * tile_size.x) * 0.5f - figure_size.x * 0.5f;
-		float start_position_y		= (board_size.y + 1) * tile_size.y;
+		float start_position_y		= board_size.y * tile_size.y;
 		
-		figure.get()->setObjectId(figures.size());
+		figure.get()->setObjectId(static_cast<int>(figures.size()));
 		figure.get()->setPosition(vec2f(start_position_x, start_position_y));
 		
 		figures.push_back(std::move(figure));
@@ -71,17 +71,14 @@ void FigureManager::refresh()
 	
 	if (time_drop < 0.0f || control_state == CS_DROP_DOWN)
 	{
-		time_drop		= 1.0f;
+		time_drop		= game_speed;
 		Figure *figure	= getMovingFigure();
 		
 		if (figure)
 		{
-			const vec2f &tile_size	= TileManager::getSingleton()->getTileSize();
-			
-			TileManager::getSingleton()->clearTiles(figure);
-		
 			//----------------------------------------------------------------
 			//-- детектим по У
+			const vec2f &tile_size = TileManager::getSingleton()->getTileSize();
 			figure->setPosition(figure->getPosition() - vec2f(0.0f, tile_size.y));
 			
 			if (TileManager::getSingleton()->detectCollision(figure))
@@ -89,26 +86,34 @@ void FigureManager::refresh()
 				figure->setPosition(figure->getPosition() + vec2f(0.0f, tile_size.y));
 				figure->setState(Figure::FS_WAIT);
 				control_state = CS_COUNT;
+				
+				TileManager::getSingleton()->fillTiles(figure);
 			}
-			
-			TileManager::getSingleton()->fillTiles(figure);
 		}
 		
 		//----------------------------------------------------------------
 		//-- ищем что нет фигур которые движутся
-		unsigned int move_objects = 0;
-		
-		for (int i = 0; i < figures.size(); ++i)
+		unsigned int move_objects = static_cast<unsigned int>(std::count_if(
+																			figures.begin(),
+																			figures.end(),
+																			[](unique_ptr<Figure> const &_figure)
 		{
-			Figure *figure = figures[i].get();
-			
-			if (figure->getState() == Figure::FS_MOVE)
-				++move_objects;
-		}
+			return _figure.get()->getState() == Figure::FS_MOVE;
+		}));
 		
 		if (move_objects == 0)
 		{
+			++object_counts;
 			generateFigure();
+			
+			//----------------------------------------------------------------
+			//-- увеличиваем скорость, после определенного кол-ва фигур
+			if (object_counts >= 10)
+			{
+				object_counts	= 0;
+				game_speed		-= 0.1f;
+				game_speed		= game_speed < 0.1f ? 0.1f : game_speed;
+			}
 		}
 		
 	}
@@ -134,7 +139,7 @@ void FigureManager::updateControl()
 {
 	if (is_touch)
 	{
-		constexpr float timeout = 1.0f / 30.0f;
+		constexpr float timeout = 1.0f / 10.0f;
 		
 		if (time_slide > timeout)
 		{
@@ -154,22 +159,18 @@ void FigureManager::updateControl()
 				{
 					direction.normalize();
 					
-					const vec2f &tile_size = TileManager::getSingleton()->getTileSize();
+					const vec2f &tile_size	= TileManager::getSingleton()->getTileSize();
+					float value				= direction.x > 0.1f ? -1.0f : direction.x < 0.1f ? 1.0f : 0.0f;
 					
-					TileManager::getSingleton()->clearTiles(figure);
-					
-					float value = direction.x > 0.1f ? -1.0f : direction.x < 0.1f ? 1.0f : 0.0f;
 					figure->setPosition(figure->getPosition() - vec2f(value * tile_size.x, 0.0f));
 					
 					if (TileManager::getSingleton()->detectCollision(figure))
 					{
 						figure->setPosition(figure->getPosition() + vec2f(value * tile_size.x, 0.0f));
 					}
-					
-					TileManager::getSingleton()->fillTiles(figure);
 				}
 			}
-			else if (control_state != CS_DROP_DOWN && slide_down > 2.0f)
+			else if (control_state != CS_DROP_DOWN && slide_down > 8.0f)
 			{
 				control_state = CS_DROP_DOWN;
 			}
@@ -180,7 +181,7 @@ void FigureManager::updateControl()
 		}
 		else
 		{
-			time_slide += 0.05f;
+			time_slide += 0.1f;
 		}
 	}
 	else if (control_state != CS_DROP_DOWN)
@@ -191,16 +192,12 @@ void FigureManager::updateControl()
 			
 			if (figure)
 			{
-				TileManager::getSingleton()->clearTiles(figure);
-				
 				figure->rotate();
 
 				if (TileManager::getSingleton()->detectCollision(figure))
 				{
 					figure->rotate(false);
 				}
-				
-				TileManager::getSingleton()->fillTiles(figure);
 			}
 		}
 		
@@ -219,8 +216,7 @@ unique_ptr<Figure> FigureManager::createFigure()
 	int value = dist(mt_rand);
 	
 	unique_ptr<Figure> figure;
-	
-	value = 0;
+
 	switch (value)
 	{
 		case Figure::FT_I:
@@ -272,22 +268,13 @@ Figure *FigureManager::getMovingFigure()
 
 //------------------------------------------------------------------------------------------
 //--
-void FigureManager::eraseFigureBlock(const vec2f &_position, unsigned int _object_id)
+void FigureManager::eraseFigureBlock(unsigned int _block_id, unsigned int _object_id)
 {
 	Figure *figure = getFigure(_object_id);
 	
 	if (figure && figure->getState() == Figure::FS_WAIT)
 	{
-		TileManager::getSingleton()->clearTiles(figure);
-		
-		figure->eraseBlock(_position);
-
-		TileManager::getSingleton()->fillTiles(figure);
-		
-		if (figure->getBlockCount() == 0)
-		{
-//			figures.erase(remove(figures.begin(), figures.end(), it), figures.end());
-		}
+		figure->eraseBlock(_block_id);
 	}
 }
 
@@ -305,32 +292,57 @@ Figure *FigureManager::getFigure(unsigned int _object_id) const
 
 //------------------------------------------------------------------------------------------
 //--
-void FigureManager::moveDownAllFigures()
+void FigureManager::rebuildAllFigures()
 {
 	for_each(figures.begin(), figures.end(), [=](unique_ptr<Figure> const &_figure)
 	{
-		updateMoving(_figure.get());
+		if (_figure.get()->getState() == Figure::FS_WAIT)
+		{
+			TileManager::getSingleton()->fillTiles(_figure.get());
+		}
 	});
 }
 
 //------------------------------------------------------------------------------------------
 //--
-void FigureManager::updateMoving(Figure *_figure)
+Figure *FigureManager::findFigure(const vec2f &_position, unsigned int *_block_id) const
 {
-	const vec2f &tile_size = TileManager::getSingleton()->getTileSize();
+	Figure *result					= nullptr;
+	const vec2f &tile_size			= TileManager::getSingleton()->getTileSize();
+	const vec2f &half_tile_size		= tile_size * 0.5f;
+	const vec2f &tile_center_pos	= _position + half_tile_size;
 	
-	TileManager::getSingleton()->clearTiles(_figure);
-	
-	//----------------------------------------------------------------
-	//-- детектим по У
-	_figure->setPosition(_figure->getPosition() - vec2f(0.0f, tile_size.y));
-	
-	if (TileManager::getSingleton()->detectCollision(_figure))
+	for (unsigned int i = 0; i < figures.size() && !result; ++i)
 	{
-		_figure->setPosition(_figure->getPosition() + vec2f(0.0f, tile_size.y));
+		Figure *figure = figures[i].get();
+		
+		for (unsigned int j = 0; j < figure->getBlockCount(); ++j)
+		{
+			const vec2f &block_center_position	= (figure->getPosition() + figure->getBlockPosition(j)) + half_tile_size;
+			const vec2f &distance				= block_center_position - tile_center_pos;
+			
+			if (fabsf(distance.x) < half_tile_size.x && fabsf(distance.y) < half_tile_size.y)
+			{
+				(*_block_id)	= j;
+				result			= figure;
+			}
+		}
 	}
 	
-	TileManager::getSingleton()->fillTiles(_figure);
+	return result;
+}
+
+//------------------------------------------------------------------------------------------
+//--
+void FigureManager::moveDownFigure(const vec2f &_position)
+{
+	unsigned int block_id	= 0xFFFFFFFF;
+	Figure *figure			= FigureManager::getSingleton()->findFigure(_position, &block_id);
+	
+	if (figure && figure->getState() == Figure::FS_WAIT && block_id != 0xFFFFFFFF)
+	{
+		figure->moveDown(block_id, TileManager::getSingleton()->getTileSize().y);
+	}
 }
 
 //------------------------------------------------------------------------------------------

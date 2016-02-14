@@ -91,6 +91,7 @@
 	float ver			= [[[UIDevice currentDevice] systemVersion] floatValue];
 	float scale			= (ver >= 3.2f) ? [[UIScreen mainScreen] scale] : 1.0f;
 	CGRect screen_rect	= [[UIScreen mainScreen] bounds];
+	timeout				= 5.0f;
 	
 	opengl_helper = OpenGLHelper::getSingleton();
 	opengl_helper->setup(screen_rect.size.width * scale, screen_rect.size.height * scale);
@@ -124,6 +125,20 @@
 {
 	tile_manager->refresh();
 	figure_manager->refresh();
+	
+	if (tile_manager->isGameEnd())
+	{
+		if (timeout < 0.0f)
+		{
+			timeout = 5.0f;
+			tile_manager->restart();
+			figure_manager->restart();
+		}
+		else
+		{
+			timeout -= 0.1f;
+		}
+	}
 }
 
 //------------------------------------------------------------------------------------------
@@ -134,8 +149,8 @@
     glClear(GL_COLOR_BUFFER_BIT);
 	glViewport(0, 0, opengl_helper->getScreenWidth(), opengl_helper->getScreenHeight());
 
-	tile_manager->draw();
 	figure_manager->draw();
+	tile_manager->draw();	
 }
 
 //------------------------------------------------------------------------------------------

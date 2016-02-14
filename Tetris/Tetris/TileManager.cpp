@@ -44,7 +44,6 @@ void TileManager::create()
 			tile.position		= vec2f(x * tile_size.x, y * tile_size.y);
 			tile.size			= tile_size;
 			tile.draw_object	= tile.state == TS_WALL ? new OGLObject() : nullptr;
-
 			tile_objects.push_back(tile);
 		}
 	}
@@ -54,7 +53,7 @@ void TileManager::create()
 //--
 void TileManager::refresh()
 {
-	for (unsigned int y = 0; y < board_size.y; ++y)
+	for (unsigned int y = 1; y < board_size.y; ++y)
 	{
 		//------------------------------
 		//-- проверям вся линия занята
@@ -79,18 +78,38 @@ void TileManager::refresh()
 		//-- срезаем линию
 		if (busy_tiles == board_size.x - 2)
 		{
+			scores += board_size.x;
+			//------------------------------------------------
+			//-- сначала проходимся по фигурам которые срезаем
+			//-- и выставляем позиции для срезаных блоков
 			for (unsigned int x = 1; x < board_size.x - 1; ++x)
 			{
 				unsigned int tile_index = (y * board_size.x) + x;
 				const Tile &tile		= tile_objects[tile_index];
-				
-				if (tile.state == TS_BUSY)
+
+				if (tile.state == TS_BUSY && tile.block_index != 0xFFFFFFFF)
 				{
-					FigureManager::getSingleton()->eraseFigureBlock(tile.position, tile.object_id);
+					FigureManager::getSingleton()->eraseFigureBlock(tile.block_index, tile.object_id);
 				}
 			}
 			
-			FigureManager::getSingleton()->moveDownAllFigures();
+			//------------------------------------------------
+			//-- теперь делаем тайлы пустыми и опускаем все
+			//-- что выше Y на тайл ниже
+			clearAllTiles();
+				
+			for (unsigned int x = 1; x < board_size.x - 1; ++x)
+			{
+				for (unsigned int new_y = y; new_y < board_size.y; ++new_y)
+				{
+					unsigned int tile_index = (new_y * board_size.x) + x;
+					const Tile &tile		= tile_objects[tile_index];
+					
+					FigureManager::getSingleton()->moveDownFigure(tile.position);
+				}
+			}
+			
+			FigureManager::getSingleton()->rebuildAllFigures();
 		}
 	}
 }
@@ -114,15 +133,16 @@ void TileManager::draw()
 
 //------------------------------------------------------------------------------------------
 //--
-void TileManager::clearTiles(Figure *_figure)
+void TileManager::clearAllTiles()
 {
 	for (unsigned int i = 0; i < tile_objects.size(); ++i)
 	{
 		Tile &tile = tile_objects[i];
-		if (tile.object_id == _figure->getObjectId())
+		if (tile.state != TS_WALL)
 		{
-			tile.object_id	= 0xFFFFFFFF;
-			tile.state		= TileManager::TS_FREE;
+			tile.object_id		= 0xFFFFFFFF;
+			tile.block_index	= 0xFFFFFFFF;
+			tile.state			= TileManager::TS_FREE;
 		}
 	}
 }
@@ -147,8 +167,9 @@ void TileManager::fillTiles(Figure *_figure)
 				
 				if (fabsf(distance.x) < half_tile_size.x && fabsf(distance.y) < half_tile_size.y)
 				{
-					tile.object_id	= _figure->getObjectId();
-					tile.state		= TileManager::TS_BUSY;
+					tile.object_id		= _figure->getObjectId();
+					tile.block_index	= j;
+					tile.state			= TileManager::TS_BUSY;
 				}
 			}
 		}
@@ -187,6 +208,19 @@ bool TileManager::detectCollision(Figure *_figure)
 
 //------------------------------------------------------------------------------------------
 //--
+bool TileManager::isGameEnd(void) const
+{
+	for (unsigned int x = 1; x < board_size.x - 1; ++x)
+	{
+		unsigned int index = ((board_size.y - 1) * board_size.x) + x;
+		if (tile_objects[index].state == TS_BUSY)
+		{
+			return true;
+		}
+	}
+	
+	return false;
+}
 
 //------------------------------------------------------------------------------------------
 //--

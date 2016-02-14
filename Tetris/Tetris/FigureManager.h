@@ -34,13 +34,19 @@ public:
 	void refresh();
 	void draw();
 	
+	void restart();
+	
 	void startTouch(const vec2f &_position);
 	void moveTouch(const vec2f &_position);
 	void endTouch(const vec2f &_position);
 	
-	void moveDownAllFigures();
-	void eraseFigureBlock(const vec2f &_position, unsigned int _object_id);
+	void eraseFigureBlock(unsigned int _block_id, unsigned int _object_id);
 	Figure *getFigure(unsigned int _object_id) const;
+	
+	Figure *findFigure(const vec2f &_position, unsigned int *_block_id) const;
+	
+	void moveDownFigure(const vec2f &_position);
+	void rebuildAllFigures();
 	
 protected:
 	void generateFigure();
@@ -60,9 +66,10 @@ protected:
 	vec2f								end_touch		= vec2f_zero;
 	vec2f								direction		= vec2f_zero;
 	
-	float								level_speed		= 0.05f;
 	float								time_drop		= 1.0f;
 	float								time_slide		= 0.0f;
+	float								game_speed		= 1.0f;
+	unsigned int						object_counts	= 0;
 	
 	bool								is_touch		= false;
 };
@@ -87,6 +94,15 @@ inline void FigureManager::endTouch(const vec2f &_position)
 	is_touch	= false;
 	start_touch = vec2f_zero;
 	end_touch	= vec2f_zero;
+}
+
+inline void FigureManager::restart()
+{
+	control_state	= CS_COUNT;
+	time_drop		= 1.0f;
+	time_slide		= 0.0f;
+	is_touch		= false;
+	figures.clear();
 }
 
 

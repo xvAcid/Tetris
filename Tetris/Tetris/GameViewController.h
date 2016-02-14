@@ -18,6 +18,8 @@
 	OpenGLHelper	*opengl_helper;
 	TileManager		*tile_manager;
 	FigureManager	*figure_manager;
+	
+	float			timeout;
 };
 
 @property (strong, nonatomic) EAGLContext *context;
